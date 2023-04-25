@@ -128,10 +128,7 @@ jobs:
           TF_VAR_environment: ${{ vars.ENVIRONMENT }}
         run: |
             echo "starting..."
-            ls -lta
             cd terraform
-            ls -lta
-            ls -lta theplan
             ./env_setup.sh
             terraform init --backend-config=backend.tfvars
             terraform apply -auto-approve theplan
