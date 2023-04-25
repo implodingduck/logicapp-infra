@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "=3.29.1"
+      version = "=3.53.0"
     }
     random = {
       source  = "hashicorp/random"
@@ -25,11 +25,12 @@ provider "azurerm" {
 }
 
 locals {
-  func_name = "func${random_string.unique.result}"
+  la_name = "la${random_string.unique.result}"
   loc_for_naming = lower(replace(var.location, " ", ""))
   gh_repo = replace(var.gh_repo, "implodingduck/", "")
   tags = {
     "managed_by" = "terraform"
+    "environment" = var.environment
     "repo"       = local.gh_repo
   }
 }
@@ -54,7 +55,7 @@ data "azurerm_network_security_group" "basic" {
 }
 
 resource "azurerm_resource_group" "rg" {
-  name     = "rg-${local.gh_repo}-${random_string.unique.result}-${local.loc_for_naming}"
+  name     = "rg-${local.gh_repo}-${var.environment}-${random_string.unique.result}-${local.loc_for_naming}"
   location = var.location
   tags = local.tags
 }
