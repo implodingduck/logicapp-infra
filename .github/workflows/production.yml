@@ -72,7 +72,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: theplan
-          path: terraform/
+          path: terraform/theplan
 
   apply:
     needs: plan
@@ -86,7 +86,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: theplan
-          path: terraform/theplan
+          path: terraform/
 
       - name: Install Node
         uses: actions/setup-node@v2
