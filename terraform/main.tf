@@ -48,12 +48,6 @@ data "azurerm_log_analytics_workspace" "default" {
   name                = "DefaultWorkspace-${data.azurerm_client_config.current.subscription_id}-EUS"
   resource_group_name = "DefaultResourceGroup-EUS"
 } 
-
-data "azurerm_network_security_group" "basic" {
-    name                = "basic"
-    resource_group_name = "rg-network-eastus"
-}
-
 resource "azurerm_resource_group" "rg" {
   name     = "rg-${local.gh_repo}-${var.environment}-${random_string.unique.result}-${local.loc_for_naming}"
   location = var.location
