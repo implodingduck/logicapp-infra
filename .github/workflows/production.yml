@@ -131,6 +131,7 @@ jobs:
             ls -lta
             cd terraform
             ls -lta
+            ls -lta theplan
             ./env_setup.sh
             terraform init --backend-config=backend.tfvars
             terraform apply -auto-approve theplan
