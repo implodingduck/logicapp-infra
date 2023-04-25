@@ -86,6 +86,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: theplan
+          path: terraform/theplan
 
       - name: Install Node
         uses: actions/setup-node@v2
@@ -127,7 +128,9 @@ jobs:
           TF_VAR_environment: ${{ vars.ENVIRONMENT }}
         run: |
             echo "starting..."
+            ls -lta
             cd terraform
+            ls -lta
             ./env_setup.sh
             terraform init --backend-config=backend.tfvars
             terraform apply -auto-approve theplan
