@@ -117,3 +117,12 @@ resource "azurerm_private_dns_zone_virtual_network_link" "file" {
   virtual_network_id    = azurerm_virtual_network.default.id
 }
 
+
+module "logicapp" {
+  source = "github.com/implodingduck/tfmodules//logicapp"
+  name = local.la_name
+  resource_group_name = azurerm_resource_group.rg.name
+  resource_group_location = var.location
+  subnet_id_logicapp = azurerm_subnet.logicapps.id
+  subnet_id_pe = azurerm_subnet.pe.id
+}
