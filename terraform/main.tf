@@ -129,5 +129,5 @@ module "logicapp" {
   resource_group_location = var.location
   subnet_id_logicapp = azurerm_subnet.logicapps.id
   subnet_id_pe = azurerm_subnet.pe.id
-  tags = tags
+  tags = local.tags
 }
