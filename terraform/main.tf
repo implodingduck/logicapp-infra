@@ -131,3 +131,23 @@ module "logicapp" {
   subnet_id_pe = azurerm_subnet.pe.id
   tags = local.tags
 }
+
+
+
+resource "azurerm_eventhub_namespace" "ehn" {
+  name                = "ehn${local.la_name}${var.environment}"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  sku                 = "Basic"
+  capacity            = 1
+
+  tags = local.tags
+}
+
+resource "azurerm_eventhub" "eh" {
+  name                = "eh${local.la_name}${var.environment}"
+  namespace_name      = azurerm_eventhub_namespace.ehn.name
+  resource_group_name = azurerm_resource_group.rg.name
+  partition_count     = 1
+  message_retention   = 1
+}
