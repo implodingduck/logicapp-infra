@@ -151,3 +151,11 @@ resource "azurerm_eventhub" "eh" {
   partition_count     = 1
   message_retention   = 1
 }
+
+module "cosmosdb" {
+  source = "github.com/implodingduck/tfmodules//cosmosdb"
+  name = local.la_name
+  resource_group_name = azurerm_resource_group.rg.name
+  resource_group_location = var.location
+  tags = local.tags
+}
