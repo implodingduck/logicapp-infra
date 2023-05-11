@@ -200,6 +200,18 @@ resource "azurerm_key_vault_access_policy" "current" {
   ]
 }
 
+resource "azurerm_key_vault_access_policy" "current" {
+  key_vault_id = azurerm_key_vault.kv.id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = module.logicapp.identity.principal_id 
+
+  secret_permissions = [
+    "Get",
+    "List",
+  ]
+
+}
+
 resource "azurerm_key_vault_secret" "cosmosdb" {
   name         = "cosmosdbconn"
   value        = module.cosmosdb.connection_strings.0
