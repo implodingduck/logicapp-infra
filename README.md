@@ -9,7 +9,11 @@
 
 ![picture of what the terraform in this repo creates](./logicapp-lifecycle.png)
 
-
+Since we want to allow the app team to create the custom app settings we can add the following to the standard logic app definition:
 ```
-
+lifecycle {
+    ignore_changes = [
+      app_settings
+    ]
+}
 ```
