@@ -159,3 +159,49 @@ module "cosmosdb" {
   resource_group_location = var.location
   tags = local.tags
 }
+
+resource "azurerm_key_vault" "kv" {
+  name                        = "kv-${local.la_name}"
+  location                    = azurerm_resource_group.rg.location
+  resource_group_name         = azurerm_resource_group.rg.name
+  tenant_id                   = data.azurerm_client_config.current.tenant_id
+  soft_delete_retention_days  = 7
+  purge_protection_enabled    = false
+
+}
+
+resource "azurerm_key_vault_access_policy" "current" {
+  key_vault_id = azurerm_key_vault.kv.id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = data.azurerm_client_config.current.object_id
+
+   key_permissions = [
+    "Create",
+    "Get",
+    "Purge",
+    "Recover",
+    "Delete"
+  ]
+
+  secret_permissions = [
+    "Set",
+    "Purge",
+    "Get",
+    "List",
+    "Delete"
+  ]
+
+  certificate_permissions = [
+    "Purge"
+  ]
+
+  storage_permissions = [
+    "Purge"
+  ]
+}
+
+resource "azurerm_key_vault_secret" "cosmosdb" {
+  name         = "cosmosdbconn"
+  value        = module.cosmosdb.connection_strings.0
+  key_vault_id = azurerm_key_vault.kv.id
+}
